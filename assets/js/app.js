@@ -1,5 +1,6 @@
 var setData = "";
 var result = 0;
+var percentage = 0;
 fetch("./assets/data/data.json")
   .then((res) => res.json())
   .then((data) => {
@@ -19,12 +20,25 @@ fetch("./assets/data/data.json")
       result += data[i].score;
     }
     // console.log(Math.floor((result / (data.length * 100)) * 100));
-    
+
+    percentage = Math.floor((result / (data.length * 100)) * 100);
     document.querySelector(".data").innerHTML = setData;
+
     document.querySelector(".Btn").addEventListener("click", function () {
-      document.querySelector(".result").innerHTML = Math.floor(
-        (result / (data.length * 100)) * 100
-      );
+      //   document.querySelector(".result").innerHTML = percentage;
+
+      let counts = setInterval(() => {
+        updated();
+      }, 10);
+
+      let number = 0;
+
+      function updated() {
+        document.querySelector(".result").innerHTML = ++number;
+        if (number === percentage) {
+          clearInterval(counts);
+        }
+      }
     });
   })
   .catch((err) => {
